@@ -1,0 +1,59 @@
+Replace lines 199-223 with:
+
+                        <>
+                            {/* Active Orders */}
+                            {orders.filter(o => ['PENDING_PAYMENT', 'CONFIRMED', 'READY_FOR_PICKUP'].includes(o.status)).length > 0 && (
+                                <View className="mb-4">
+                                    <TouchableOpacity 
+                                        onPress={() => setActiveExpanded(!activeExpanded)}
+                                        className="flex-row justify-between items-center mx-4 mb-3 mt-2 bg-white px-4 py-3 rounded-xl shadow-sm"
+                                    >
+                                        <View className="flex-row items-center">
+                                            <View className="bg-blue-50 w-8 h-8 rounded-full items-center justify-center mr-3">
+                                                <Ionicons name="time" size={16} color="#2563EB" />
+                                            </View>
+                                            <View>
+                                                <Text className="text-black font-bold text-base">Active Orders</Text>
+                                                <Text className="text-gray-500 text-xs font-medium">
+                                                    {orders.filter(o => ['PENDING_PAYMENT', 'CONFIRMED', 'READY_FOR_PICKUP'].includes(o.status)).length} orders
+                                                </Text>
+                                            </View>
+                                        </View>
+                                        <Ionicons name={activeExpanded ? "chevron-up" : "chevron-down"} size={20} color="#9CA3AF" />
+                                    </TouchableOpacity>
+                                    {activeExpanded && orders.filter(o => ['PENDING_PAYMENT', 'CONFIRMED', 'READY_FOR_PICKUP'].includes(o.status)).map((order) => (
+                                        <View key={order.id}>
+                                            {renderOrderItem(order)}
+                                        </View>
+                                    ))}
+                                </View>
+                            )}
+                            
+                            {/* Completed Orders */}
+                            {orders.filter(o => o.status === 'COMPLETED').length > 0 && (
+                                <View className="mb-4">
+                                    <TouchableOpacity 
+                                        onPress={() => setCompletedExpanded(!completedExpanded)}
+                                        className="flex-row justify-between items-center mx-4 mb-3 bg-white px-4 py-3 rounded-xl shadow-sm"
+                                    >
+                                        <View className="flex-row items-center">
+                                            <View className="bg-gray-100 w-8 h-8 rounded-full items-center justify-center mr-3">
+                                                <Ionicons name="checkmark-circle" size={16} color="#6B7280" />
+                                            </View>
+                                            <View>
+                                                <Text className="text-black font-bold text-base">Completed</Text>
+                                                <Text className="text-gray-500 text-xs font-medium">
+                                                    {orders.filter(o => o.status === 'COMPLETED').length} orders
+                                                </Text>
+                                            </View>
+                                        </View>
+                                        <Ionicons name={completedExpanded ? "chevron-up" : "chevron-down"} size={20} color="#9CA3AF" />
+                                    </TouchableOpacity>
+                                    {completedExpanded && orders.filter(o => o.status === 'COMPLETED').map((order) => (
+                                        <View key={order.id}>
+                                            {renderOrderItem(order)}
+                                        </View>
+                                    ))}
+                                </View>
+                            )}
+                        </>
